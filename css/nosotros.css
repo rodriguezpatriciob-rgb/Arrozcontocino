@@ -1,0 +1,499 @@
+/* ============================================
+   NOSOTROS - ESTILOS PREMIUM CON IMÁGENES
+   ============================================ */
+
+.nosotros-main {
+    margin-top: 80px;
+    padding: 0;
+    max-width: 100%;
+}
+
+/* Hero Section */
+.nosotros-hero {
+    position: relative;
+    height: 60vh;
+    min-height: 400px;
+    overflow: hidden;
+}
+
+.hero-image {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.hero-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.7);
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: white;
+    z-index: 2;
+}
+
+.hero-overlay h2 {
+    font-family: var(--font-titulos);
+    font-size: 4rem;
+    font-weight: 300;
+    letter-spacing: 8px;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+.hero-overlay p {
+    font-size: 1.2rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+}
+
+/* Secciones con layout alternado */
+.historia, .filosofia {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    padding: 6rem 4rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.historia {
+    background: linear-gradient(135deg, rgba(26,26,26,0.9) 0%, rgba(10,10,10,0.9) 100%);
+}
+
+.filosofia {
+    background: var(--negro-mate);
+    direction: rtl;
+}
+
+.filosofia > * {
+    direction: ltr;
+}
+
+.section-image {
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+}
+
+.section-image img {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+.section-image:hover img {
+    transform: scale(1.05);
+}
+
+.section-content h2 {
+    font-family: var(--font-titulos);
+    font-size: 2.5rem;
+    color: var(--oro-principal);
+    margin-bottom: 1.5rem;
+    letter-spacing: 4px;
+}
+
+.section-content p {
+    color: rgba(255,255,255,0.8);
+    line-height: 1.8;
+    margin-bottom: 1rem;
+    font-weight: 300;
+}
+
+.section-content ul {
+    list-style: none;
+    margin-top: 1.5rem;
+}
+
+.section-content li {
+    padding: 0.8rem 0;
+    padding-left: 2rem;
+    position: relative;
+    color: rgba(255,255,255,0.8);
+    border-bottom: 1px solid rgba(201,169,98,0.1);
+}
+
+.section-content li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--oro-principal);
+}
+
+.section-content strong {
+    color: var(--oro-principal);
+    font-weight: 500;
+}
+
+/* Chef Section */
+.chef-section {
+    padding: 6rem 4rem;
+    background: linear-gradient(135deg, rgba(114,47,55,0.2) 0%, rgba(26,26,26,0.9) 100%);
+    text-align: center;
+}
+
+.chef-section h2 {
+    font-family: var(--font-titulos);
+    font-size: 2.5rem;
+    color: var(--oro-principal);
+    margin-bottom: 3rem;
+    letter-spacing: 4px;
+}
+
+.chef-card {
+    display: flex;
+    gap: 3rem;
+    align-items: center;
+    max-width: 1000px;
+    margin: 0 auto;
+    background: rgba(26,26,26,0.8);
+    padding: 3rem;
+    border-radius: 12px;
+    border: 1px solid rgba(201,169,98,0.2);
+}
+
+.chef-image {
+    flex-shrink: 0;
+}
+
+.chef-image img {
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 4px solid var(--oro-principal);
+    box-shadow: 0 10px 40px rgba(201,169,98,0.3);
+}
+
+.chef-info {
+    text-align: left;
+}
+
+.chef-info h4 {
+    font-family: var(--font-titulos);
+    font-size: 2rem;
+    color: var(--oro-principal);
+    margin-bottom: 0.5rem;
+}
+
+.chef-title {
+    color: rgba(255,255,255,0.6);
+    font-size: 0.9rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+}
+
+.chef-info p {
+    color: rgba(255,255,255,0.8);
+    line-height: 1.8;
+    margin-bottom: 1rem;
+    font-style: italic;
+}
+
+.chef-signature {
+    font-family: var(--font-elegante);
+    font-size: 1.5rem;
+    color: var(--oro-principal);
+    margin-top: 1rem;
+}
+
+/* Equipo Section */
+.equipo-section {
+    padding: 6rem 4rem;
+    background: var(--negro-mate);
+    text-align: center;
+}
+
+.equipo-section h2 {
+    font-family: var(--font-titulos);
+    font-size: 2.5rem;
+    color: var(--oro-principal);
+    margin-bottom: 3rem;
+    letter-spacing: 4px;
+}
+
+.equipo-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.miembro {
+    background: rgba(26,26,26,0.8);
+    padding: 2rem;
+    border-radius: 8px;
+    border: 1px solid rgba(201,169,98,0.2);
+    transition: all 0.4s ease;
+}
+
+.miembro:hover {
+    transform: translateY(-10px);
+    border-color: var(--oro-principal);
+    box-shadow: 0 15px 40px rgba(201,169,98,0.2);
+}
+
+.miembro img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 1rem;
+    border: 3px solid var(--oro-principal);
+}
+
+.miembro h4 {
+    color: var(--oro-principal);
+    font-family: var(--font-titulos);
+    font-size: 1.2rem;
+    margin-bottom: 0.3rem;
+}
+
+.miembro p {
+    color: white;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.miembro small {
+    color: rgba(255,255,255,0.5);
+    font-size: 0.75rem;
+}
+
+/* Reconocimientos */
+.reconocimientos {
+    padding: 6rem 4rem;
+    background: linear-gradient(135deg, rgba(26,26,26,0.95) 0%, rgba(10,10,10,0.95) 100%);
+    text-align: center;
+}
+
+.reconocimientos h2 {
+    font-family: var(--font-titulos);
+    font-size: 2.5rem;
+    color: var(--oro-principal);
+    margin-bottom: 3rem;
+    letter-spacing: 4px;
+}
+
+.reconocimientos-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.premio {
+    background: rgba(201,169,98,0.1);
+    padding: 2rem;
+    border-radius: 8px;
+    border: 1px solid rgba(201,169,98,0.3);
+    transition: all 0.4s ease;
+}
+
+.premio:hover {
+    background: rgba(201,169,98,0.2);
+    transform: scale(1.05);
+}
+
+.premio-icon {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 1rem;
+}
+
+.premio h4 {
+    color: var(--oro-principal);
+    font-family: var(--font-titulos);
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+}
+
+.premio p {
+    color: rgba(255,255,255,0.6);
+    font-size: 0.85rem;
+}
+
+/* Valores */
+.valores {
+    padding: 6rem 4rem;
+    background: var(--negro-mate);
+}
+
+.valores h2 {
+    font-family: var(--font-titulos);
+    font-size: 2.5rem;
+    color: var(--oro-principal);
+    text-align: center;
+    margin-bottom: 3rem;
+    letter-spacing: 4px;
+}
+
+.valores-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.valor {
+    text-align: center;
+    padding: 2.5rem;
+    background: rgba(26,26,26,0.8);
+    border: 1px solid rgba(201,169,98,0.2);
+    border-radius: 8px;
+    transition: all 0.4s ease;
+}
+
+.valor:hover {
+    border-color: var(--oro-principal);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(201,169,98,0.15);
+}
+
+.valor span {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 1rem;
+}
+
+.valor h4 {
+    color: var(--oro-principal);
+    font-family: var(--font-titulos);
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    letter-spacing: 2px;
+}
+
+.valor p {
+    color: rgba(255,255,255,0.7);
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+/* Galería */
+.galeria {
+    padding: 6rem 4rem;
+    background: linear-gradient(135deg, rgba(26,26,26,0.9) 0%, rgba(10,10,10,0.9) 100%);
+}
+
+.galeria h2 {
+    font-family: var(--font-titulos);
+    font-size: 2.5rem;
+    color: var(--oro-principal);
+    text-align: center;
+    margin-bottom: 3rem;
+    letter-spacing: 4px;
+}
+
+.galeria-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.galeria-grid img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 8px;
+    transition: all 0.4s ease;
+    cursor: pointer;
+}
+
+.galeria-grid img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    z-index: 10;
+}
+
+/* Responsive */
+@media screen and (max-width: 992px) {
+    .historia, .filosofia {
+        grid-template-columns: 1fr;
+        padding: 4rem 2rem;
+    }
+    
+    .section-image img {
+        height: 300px;
+    }
+    
+    .chef-card {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .chef-info {
+        text-align: center;
+    }
+    
+    .equipo-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .reconocimientos-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .valores-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .galeria-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media screen and (max-width: 756px) {
+    .nosotros-hero {
+        height: 40vh;
+    }
+    
+    .hero-overlay h2 {
+        font-size: 2.5rem;
+    }
+    
+    .equipo-grid,
+    .reconocimientos-grid,
+    .valores-grid,
+    .galeria-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .chef-image img {
+        width: 200px;
+        height: 200px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .section-content h2,
+    .chef-section h2,
+    .equipo-section h2,
+    .reconocimientos h2,
+    .valores h2,
+    .galeria h2 {
+        font-size: 1.8rem;
+    }
+    
+    .hero-overlay h2 {
+        font-size: 2rem;
+        letter-spacing: 4px;
+    }
+}

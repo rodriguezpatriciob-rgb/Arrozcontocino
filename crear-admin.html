@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Administrador - Inti Raymi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0D0D0D 0%, #1a1a1a 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .admin-card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            border: 1px solid rgba(201,169,98,0.3);
+        }
+
+        h1 {
+            color: #C9A962;
+            text-align: center;
+            margin-bottom: 30px;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            color: #C9A962;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(201,169,98,0.3);
+            border-radius: 8px;
+            color: white;
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #C9A962;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #C9A962 0%, #9A7B3D 100%);
+            border: none;
+            border-radius: 8px;
+            color: #0D0D0D;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(201,169,98,0.3);
+        }
+
+        .message {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .success { background: #4CAF50; color: white; }
+        .error { background: #f44336; color: white; }
+        .info { background: #2196F3; color: white; }
+
+        hr {
+            margin: 20px 0;
+            border-color: rgba(201,169,98,0.2);
+        }
+
+        .note {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+            font-size: 0.8rem;
+            color: #aaa;
+        }
+
+        .credenciales {
+            background: rgba(0,0,0,0.5);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: center;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-card">
+        <h1>👑 Crear Administrador</h1>
+        
+        <div class="input-group">
+            <label>📧 Correo Electrónico</label>
+            <input type="email" id="email" value="admin@intiraymi.com">
+        </div>
+        
+        <div class="input-group">
+            <label>🔒 Contraseña</label>
+            <input type="password" id="password" value="admin123">
+        </div>
+        
+        <div class="input-group">
+            <label>👤 Nombre Completo</label>
+            <input type="text" id="nombre" value="Administrador">
+        </div>
+        
+        <div class="input-group">
+            <label>📱 Teléfono</label>
+            <input type="tel" id="telefono" value="999999999">
+        </div>
+        
+        <button id="btnCrearAdmin">✨ Crear Usuario Administrador</button>
+        
+        <div id="message" class="message"></div>
+        
+        <div class="credenciales" id="credencialesInfo">
+            🔐 Credenciales por defecto:<br>
+            <strong>admin@intiraymi.com</strong> / <strong>admin123</strong>
+        </div>
+        
+        <hr>
+        
+        <div style="text-align: center; color: #C9A962; margin: 15px 0;">
+            — O —
+        </div>
+        
+        <div class="input-group">
+            <label>📧 Convertir usuario existente en Admin</label>
+            <input type="email" id="emailExistente" placeholder="Email del usuario a convertir">
+        </div>
+        
+        <button id="btnConvertirAdmin" style="background: #722F37;">🔄 Convertir en Administrador</button>
+        
+        <div class="note">
+            <p>⚠️ <strong>Nota importante:</strong></p>
+            <p>• El usuario administrador tendrá acceso al panel de control</p>
+            <p>• Podrá gestionar reservas, pedidos y mesas</p>
+            <p>• Guarda las credenciales en un lugar seguro</p>
+        </div>
+    </div>
+
+    <script type="importmap">
+        {
+            "imports": {
+                "firebase/app": "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js",
+                "firebase/auth": "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js",
+                "firebase/firestore": "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js"
+            }
+        }
+    </script>
+
+    <script type="module">
+        import { initializeApp } from "firebase/app";
+        import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+        import { getFirestore, doc, setDoc, updateDoc, collection, query, where, getDocs } from "firebase/firestore";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyC_Q5WigKrNtsNBYl_VCtUVJZh0-EqkaxI",
+            authDomain: "baseuno.firebaseapp.com",
+            projectId: "baseuno",
+            storageBucket: "baseuno.firebasestorage.app",
+            messagingSenderId: "543622478506",
+            appId: "1:543622478506:web:d450e1e1048e2108f7eed3",
+            measurementId: "G-6DC4Z1E1R5"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        const messageDiv = document.getElementById('message');
+        
+        function showMessage(text, type) {
+            messageDiv.textContent = text;
+            messageDiv.className = `message ${type}`;
+            setTimeout(() => {
+                if (messageDiv.textContent === text) {
+                    messageDiv.textContent = '';
+                    messageDiv.className = 'message';
+                }
+            }, 5000);
+        }
+
+        // Crear nuevo usuario administrador
+        document.getElementById('btnCrearAdmin').addEventListener('click', async () => {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const nombre = document.getElementById('nombre').value;
+            const telefono = document.getElementById('telefono').value;
+            
+            if (!email || !password) {
+                showMessage('❌ Completa todos los campos obligatorios', 'error');
+                return;
+            }
+            
+            showMessage('⏳ Creando usuario administrador...', 'info');
+            
+            try {
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user;
+                
+                await setDoc(doc(db, "usuarios", user.uid), {
+                    nombre: nombre,
+                    email: email,
+                    telefono: telefono,
+                    rol: 'admin',
+                    activo: true,
+                    fechaRegistro: new Date()
+                });
+                
+                showMessage(`✅ ¡Administrador creado exitosamente!`, 'success');
+                
+                setTimeout(() => {
+                    window.location.href = 'admin.html';
+                }, 2000);
+                
+            } catch (error) {
+                if (error.code === 'auth/email-already-in-use') {
+                    showMessage('⚠️ El email ya existe. Usa "Convertir en Administrador"', 'error');
+                } else {
+                    showMessage('❌ Error: ' + error.message, 'error');
+                }
+            }
+        });
+        
+        // Convertir usuario existente
+        document.getElementById('btnConvertirAdmin').addEventListener('click', async () => {
+            const email = document.getElementById('emailExistente').value;
+            
+            if (!email) {
+                showMessage('❌ Ingresa el email del usuario', 'error');
+                return;
+            }
+            
+            showMessage('🔍 Buscando usuario...', 'info');
+            
+            try {
+                const usuariosRef = collection(db, "usuarios");
+                const q = query(usuariosRef, where("email", "==", email));
+                const querySnapshot = await getDocs(q);
+                
+                if (querySnapshot.empty) {
+                    showMessage('❌ No se encontró ningún usuario con ese email', 'error');
+                    return;
+                }
+                
+                let userDoc = null;
+                querySnapshot.forEach(doc => {
+                    userDoc = { id: doc.id, ...doc.data() };
+                });
+                
+                if (userDoc) {
+                    await updateDoc(doc(db, "usuarios", userDoc.id), { rol: 'admin' });
+                    showMessage(`✅ ¡Usuario ${email} ahora es ADMINISTRADOR!`, 'success');
+                    
+                    setTimeout(() => {
+                        window.location.href = 'admin.html';
+                    }, 2000);
+                }
+                
+            } catch (error) {
+                console.error('Error:', error);
+                showMessage('❌ Error: ' + error.message, 'error');
+            }
+        });
+    </script>
+</body>
+</html>

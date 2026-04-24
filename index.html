@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
+    <meta name="theme-color" content="#0D0D0D" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+    <title>Inti Raymi - Restaurante Peruano</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&family=Pacifico&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+    <style>
+        /* ============================================ */
+        /* VIDEO DE BIENVENIDA - SOLO TU VIDEO LOCAL */
+        /* COMPLETAMENTE RESPONSIVE PARA MÓVILES */
+        /* ============================================ */
+        
+        .video-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000000;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 1.2s ease-in-out;
+            overflow: hidden;
+        }
+        
+        .video-overlay video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+        }
+        
+        .video-overlay .logo-container {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            color: white;
+            animation: pulseLogo 1.5s ease-in-out infinite;
+            padding: 20px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 20px;
+            backdrop-filter: blur(5px);
+        }
+        
+        .video-overlay .logo-container span {
+            font-size: clamp(3rem, 15vw, 5rem);
+            display: block;
+        }
+        
+        .video-overlay .logo-container h1 {
+            font-size: clamp(1.8rem, 8vw, 4rem);
+            font-family: 'Playfair Display', serif;
+            letter-spacing: clamp(2px, 2vw, 6px);
+            text-shadow: 0 0 20px rgba(0,0,0,0.5);
+            margin-bottom: 0.5rem;
+            color: #C9A962;
+        }
+        
+        .video-overlay .logo-container p {
+            font-size: clamp(0.8rem, 4vw, 1.2rem);
+            opacity: 0.9;
+            letter-spacing: clamp(1px, 1vw, 3px);
+            color: #F5F0E8;
+        }
+        
+        @keyframes pulseLogo {
+            0% { transform: scale(1); opacity: 0.9; }
+            50% { transform: scale(1.05); opacity: 1; }
+            100% { transform: scale(1); opacity: 0.9; }
+        }
+        
+        .video-overlay.hide {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        body.video-active {
+            overflow: hidden;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+        }
+        
+        body.video-finished {
+            overflow: auto;
+            position: relative;
+        }
+        
+        .skip-video {
+            position: absolute;
+            bottom: 30px;
+            right: 30px;
+            z-index: 20;
+            background: rgba(0,0,0,0.6);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 12px 24px;
+            border-radius: 40px;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(8px);
+            letter-spacing: 1px;
+        }
+        
+        .skip-video:hover {
+            background: rgba(0,0,0,0.8);
+            border-color: #C9A962;
+            transform: scale(1.05);
+        }
+        
+        @media (max-width: 768px) {
+            .skip-video {
+                bottom: 20px;
+                right: 20px;
+                padding: 8px 16px;
+                font-size: 0.75rem;
+            }
+            .video-overlay .logo-container {
+                margin: 0 20px;
+                padding: 15px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .skip-video {
+                bottom: 20px;
+                left: 20px;
+                right: auto;
+                padding: 8px 14px;
+                font-size: 0.7rem;
+            }
+            .video-overlay .logo-container {
+                width: 85%;
+                margin: 0 auto;
+            }
+        }
+        
+        /* Estilos para tarjetas clickeables */
+        .card-plato {
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .card-plato:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        
+        .card-plato:active {
+            transform: translateY(-5px);
+        }
+    </style>
+</head>
+<body class="video-active">
+    <!-- VIDEO DE BIENVENIDA - SOLO TU VIDEO LOCAL -->
+    <div class="video-overlay" id="videoOverlay">
+        <video id="introVideo" autoplay muted playsinline preload="auto">
+            <source src="img/animacion.mp4" type="video/mp4">
+        </video>
+        <div class="">
+        </div>
+        <button class="skip-video" id="skipVideoBtn">⏭ Saltar</button>
+    </div>
+
+    <!-- NAVEGACIÓN -->
+    <nav class="navbar">
+        <div class="nav-brand">
+            <span class="logo">☀️</span>
+            <h1>Inti Raymi</h1>
+        </div>
+        <button class="nav-toggle" id="navToggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <ul class="nav-menu" id="navMenu">
+            <li><a href="index.html" class="active">Inicio</a></li>
+            <li><a href="menu.html">Menú</a></li>
+            <li><a href="reservas.html">Reservas</a></li>
+            <li><a href="nosotros.html">Nosotros</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
+            <li id="authLinks">
+                <a href="login.html" class="btn-login">Ingresar</a>
+            </li>
+        </ul>
+    </nav>
+    
+    <!-- HERO SECTION -->
+    <header class="hero" style="background: linear-gradient(135deg, rgba(13,13,13,0.7) 0%, rgba(74,28,35,0.8) 100%), url('https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=1920'); background-size: cover; background-position: center; background-attachment: fixed;">
+        <div class="hero-content">
+            <h2>Sabores del Perú</h2>
+            <p class="subtitle">Auténtica cocina peruana con tradición ancestral</p>
+            <div class="hero-buttons">
+                <a href="menu.html" class="btn-primary">Ver Menú</a>
+                <a href="reservas.html" class="btn-secondary">Reservar Mesa</a>
+            </div>
+        </div>
+        <div class="hero-decoration">
+            <div class="inca-pattern"></div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main>
+        <!-- Sección Especialidades con imágenes - CLICKEABLES -->
+        <section class="especialidades">
+            <h3>Nuestras Especialidades</h3>
+            <div class="cards-container">
+                <article class="card-plato" data-plato="Ceviche Clásico" data-categoria="platos">
+                    <div class="card-img-container">
+                        <img src="https://images.unsplash.com/photo-1535400255456-984241443b29?w=400" alt="Ceviche Clásico">
+                        <div class="card-overlay">
+                            <span class="ver-mas">Ver en Menú</span>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <span class="categoria">Entrada</span>
+                        <h4>Ceviche Clásico</h4>
+                        <p>Pescado fresco marinado en limón con ají, cebolla morada y cilantro</p>
+                        <div class="card-footer">
+                            <span class="precio">$245 MXN</span>
+                            <span class="tiempo">⏱️ 15 min</span>
+                        </div>
+                    </div>
+                </article>
+                
+                <article class="card-plato destacado" data-plato="Lomo Saltado" data-categoria="platos">
+                    <div class="badge-popular">Más Popular</div>
+                    <div class="card-img-container">
+                        <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400" alt="Lomo Saltado">
+                        <div class="card-overlay">
+                            <span class="ver-mas">Ver en Menú</span>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <span class="categoria">Plato Principal</span>
+                        <h4>Lomo Saltado</h4>
+                        <p>Jugoso lomo de res salteado con cebolla, tomate y papas fritas</p>
+                        <div class="card-footer">
+                            <span class="precio">$285 MXN</span>
+                            <span class="tiempo">⏱️ 25 min</span>
+                        </div>
+                    </div>
+                </article>
+                
+                <article class="card-plato" data-plato="Tacu Tacu con Mariscos" data-categoria="platos">
+                    <div class="card-img-container">
+                        <img src="https://images.unsplash.com/photo-1541014741259-de529411b96a?w=400" alt="Tacu Tacu">
+                        <div class="card-overlay">
+                            <span class="ver-mas">Ver en Menú</span>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <span class="categoria">Especialidad</span>
+                        <h4>Tacu Tacu con Mariscos</h4>
+                        <p>Crujiente tortilla de arroz y frejoles con salsa de mariscos</p>
+                        <div class="card-footer">
+                            <span class="precio">$265 MXN</span>
+                            <span class="tiempo">⏱️ 30 min</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- Sección de Ambiente -->
+        <section class="ambiente-section">
+            <div class="ambiente-content">
+                <h3>Un Ambiente Único</h3>
+                <p>Disfruta de una experiencia gastronómica inolvidable en un espacio diseñado para transportarte al corazón del Perú ancestral.</p>
+                <div class="ambiente-features">
+                    <div class="feature">
+                        <img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?w=200" alt="Decoración">
+                        <span>Decoración Andina</span>
+                    </div>
+                    <div class="feature">
+                        <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=200" alt="Terraza">
+                        <span>Terraza Panorámica</span>
+                    </div>
+                    <div class="feature">
+                        <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=200" alt="Salón VIP">
+                        <span>Salón VIP</span>
+                    </div>
+                </div>
+            </div>
+            <div class="ambiente-imagen">
+                <img src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=800" alt="Ambiente del restaurante">
+            </div>
+        </section>
+
+        <!-- Sección Horarios -->
+        <section class="horarios-section">
+            <aside class="horarios-box">
+                <div class="horario-icon">
+                    <img src="https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?w=300" alt="Chef cocinando">
+                </div>
+                <h4>🕐 Horarios de Atención</h4>
+                <ul>
+                    <li><span>Lunes - Jueves:</span> 12:00 - 22:00</li>
+                    <li><span>Viernes - Sábado:</span> 12:00 - 23:00</li>
+                    <li><span>Domingo:</span> 11:00 - 21:00</li>
+                </ul>
+                <div class="reserva-cta">
+                    <p>¡Reserva tu mesa!</p>
+                    <a href="reservas.html" class="btn-small">Reservar Ahora</a>
+                </div>
+            </aside>
+        </section>
+
+        <!-- Sección Testimonios con fotos -->
+        <section class="testimonios">
+            <h3>Lo que dicen nuestros clientes</h3>
+            <div class="testimonios-grid">
+                <blockquote>
+                    <div class="cliente-info">
+                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100" alt="María G." class="cliente-foto">
+                        <div>
+                            <cite>María González</cite>
+                            <span class="cliente-rating">⭐⭐⭐⭐⭐</span>
+                        </div>
+                    </div>
+                    <p>"El mejor ceviche que he probado fuera de Lima. Auténtico y delicioso. El ambiente es mágico y el servicio impecable."</p>
+                </blockquote>
+                <blockquote>
+                    <div class="cliente-info">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100" alt="Carlos R." class="cliente-foto">
+                        <div>
+                            <cite>Carlos Rodríguez</cite>
+                            <span class="cliente-rating">⭐⭐⭐⭐⭐</span>
+                        </div>
+                    </div>
+                    <p>"Ambiente acogedor y comida excepcional. Volveré pronto con toda mi familia. ¡Altamente recomendado!"</p>
+                </blockquote>
+                <blockquote>
+                    <div class="cliente-info">
+                        <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100" alt="Ana M." class="cliente-foto">
+                        <div>
+                            <cite>Ana Martínez</cite>
+                            <span class="cliente-rating">⭐⭐⭐⭐⭐</span>
+                        </div>
+                    </div>
+                    <p>"La experiencia completa: desde la decoración hasta el último bocado. El lomo saltado es simplemente perfecto."</p>
+                </blockquote>
+            </div>
+        </section>
+
+        <!-- Galería Rápida -->
+        <section class="galeria-preview">
+            <h3>Un Vistazo a Nuestra Cocina</h3>
+            <div class="galeria-grid">
+                <img src="https://images.unsplash.com/photo-1551218808-94e220e084d2?w=400" alt="Cocina en acción">
+                <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400" alt="Plato presentado">
+                <img src="https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?w=400" alt="Ingredientes frescos">
+                <img src="https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=400" alt="Postres">
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h5>Inti Raymi</h5>
+                <p>Tradición peruana en cada plato</p>
+                <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=200" alt="Logo restaurante" class="footer-logo">
+            </div>
+            <div class="footer-section">
+                <h5>Contacto</h5>
+                <p>📍 Av. Sol 123, Cusco</p>
+                <p>📞 (01) 234-5678</p>
+                <p>✉️ info@intiraymi.pe</p>
+            </div>
+            <div class="footer-section">
+                <h5>Síguenos</h5>
+                <div class="social-links">
+                    <a href="#"><img src="https://cdn-icons-png.flaticon.com/128/733/733547.png" alt="Facebook" width="24"></a>
+                    <a href="#"><img src="https://cdn-icons-png.flaticon.com/128/733/733558.png" alt="Instagram" width="24"></a>
+                    <a href="#"><img src="https://cdn-icons-png.flaticon.com/128/733/733579.png" alt="Twitter" width="24"></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Inti Raymi Restaurant. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script type="module" src="js/main.js"></script>
+    
+    <script>
+        // ============================================
+        // CONTROL DEL VIDEO DE BIENVENIDA
+        // ============================================
+        (function() {
+            const videoOverlay = document.getElementById('videoOverlay');
+            const introVideo = document.getElementById('introVideo');
+            const skipBtn = document.getElementById('skipVideoBtn');
+            const body = document.body;
+            
+            function hideVideoOverlay() {
+                if (!videoOverlay) return;
+                videoOverlay.classList.add('hide');
+                body.classList.remove('video-active');
+                body.classList.add('video-finished');
+                body.style.overflow = '';
+                body.style.position = '';
+                body.style.width = '';
+                body.style.height = '';
+                
+                setTimeout(() => {
+                    if (videoOverlay && videoOverlay.parentNode) {
+                        videoOverlay.style.display = 'none';
+                    }
+                }, 1200);
+            }
+            
+            function startVideoAndHide() {
+                if (introVideo) {
+                    const playPromise = introVideo.play();
+                    if (playPromise !== undefined) {
+                        playPromise.then(() => {
+                            console.log('✅ Video reproduciéndose correctamente');
+                        }).catch(error => {
+                            console.log('⚠️ Error reproduciendo video:', error);
+                            setTimeout(() => { hideVideoOverlay(); }, 1000);
+                        });
+                    }
+                    introVideo.addEventListener('ended', function() { hideVideoOverlay(); });
+                    setTimeout(() => {
+                        if (videoOverlay && !videoOverlay.classList.contains('hide')) {
+                            hideVideoOverlay();
+                        }
+                    }, 6000);
+                } else {
+                    hideVideoOverlay();
+                }
+            }
+            
+            if (skipBtn) {
+                skipBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (introVideo) {
+                        introVideo.pause();
+                        introVideo.currentTime = 0;
+                    }
+                    hideVideoOverlay();
+                });
+            }
+            
+            window.addEventListener('load', function() {
+                setTimeout(() => { startVideoAndHide(); }, 100);
+            });
+            
+            window.addEventListener('resize', function() {
+                if (introVideo && videoOverlay && !videoOverlay.classList.contains('hide')) {
+                    introVideo.style.transform = 'translate(-50%, -50%)';
+                }
+            });
+        })();
+
+        // ============================================
+        // REDIRECCIÓN AL MENÚ AL HACER CLIC EN ESPECIALIDADES
+        // ============================================
+        document.querySelectorAll('.card-plato').forEach(card => {
+            card.addEventListener('click', function(e) {
+                if (e.target.closest('a')) return;
+                const plato = this.dataset.plato || '';
+                const categoria = this.dataset.categoria || 'platos';
+                window.location.href = `menu.html?categoria=${categoria}&plato=${encodeURIComponent(plato)}`;
+            });
+        });
+    </script>
+</body>
+</html>

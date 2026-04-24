@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacto - Inti Raymi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@200;300;400;500;600&family=Great+Vibes&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+    <link rel="stylesheet" href="css/contacto.css">
+</head>
+<body>
+    <!-- Navegación -->
+    <nav class="navbar">
+        <div class="nav-brand">
+            <span class="logo">☀️</span>
+            <h1>Inti Raymi</h1>
+        </div>
+        <button class="nav-toggle" id="navToggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <ul class="nav-menu" id="navMenu">
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="menu.html">Menú</a></li>
+            <li><a href="reservas.html">Reservas</a></li>
+            <li><a href="nosotros.html">Nosotros</a></li>
+            <li><a href="contacto.html" class="active">Contacto</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Contacto -->
+    <section class="contacto-hero">
+        <div class="hero-image">
+            <img src="https://images.unsplash.com/photo-1424847651672-bf20a4b0982b?w=1920" alt="Contacto Inti Raymi">
+            <div class="hero-overlay">
+                <h2>Contáctanos</h2>
+                <p>Estamos aquí para servirte</p>
+            </div>
+        </div>
+    </section>
+
+    <main class="contacto-main">
+        <div class="contacto-grid">
+            <!-- Información de Contacto -->
+            <section class="info-contacto">
+                <div class="info-header">
+                    <img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?w=600" alt="Restaurante" class="info-image">
+                    <h3>Visítanos</h3>
+                </div>
+                
+                <div class="info-item">
+                    <div class="info-icon">📍</div>
+                    <div class="info-content">
+                        <h4>Dirección</h4>
+                        <p>Av. Sol 123, Cusco, Perú<br>Centro Histórico</p>
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-icon">📞</div>
+                    <div class="info-content">
+                        <h4>Teléfono</h4>
+                        <p>(01) 234-5678<br>+51 987 654 321</p>
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-icon">✉️</div>
+                    <div class="info-content">
+                        <h4>Email</h4>
+                        <p>info@intiraymi.pe<br>reservas@intiraymi.pe</p>
+                    </div>
+                </div>
+
+                <div class="horario-contacto">
+                    <h4>Horarios de Atención</h4>
+                    <div class="horario-item">
+                        <span>Lunes - Jueves</span>
+                        <span>12:00 - 22:00</span>
+                    </div>
+                    <div class="horario-item">
+                        <span>Viernes - Sábado</span>
+                        <span>12:00 - 23:00</span>
+                    </div>
+                    <div class="horario-item">
+                        <span>Domingo</span>
+                        <span>11:00 - 21:00</span>
+                    </div>
+                </div>
+
+                <div class="mapa-container">
+                    <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?w=800" alt="Mapa ubicación" class="mapa-img">
+                    <div class="mapa-overlay">
+                        <span>🗺️</span>
+                        <p>Ver ubicación en Google Maps</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Formulario de Contacto -->
+            <section class="form-contacto-container">
+                <div class="form-header">
+                    <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400" alt="Contacto" class="form-image">
+                    <h3>Envíanos un mensaje</h3>
+                    <p class="form-descripcion">Completa el formulario y te responderemos en breve</p>
+                </div>
+
+                <form id="contactForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="contactNombre">Nombre completo *</label>
+                            <input type="text" id="contactNombre" required placeholder="Tu nombre">
+                        </div>
+                        <div class="form-group">
+                            <label for="contactEmail">Correo electrónico *</label>
+                            <input type="email" id="contactEmail" required placeholder="tu@email.com">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="contactTelefono">Teléfono</label>
+                            <input type="tel" id="contactTelefono" placeholder="999 999 999" maxlength="12">
+                        </div>
+                        <div class="form-group">
+                            <label for="contactAsunto">Asunto *</label>
+                            <select id="contactAsunto" required>
+                                <option value="">Selecciona un asunto</option>
+                                <option value="reserva">Consulta de reserva</option>
+                                <option value="evento">Evento privado</option>
+                                <option value="sugerencia">Sugerencia</option>
+                                <option value="reclamo">Reclamo</option>
+                                <option value="otro">Otro</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contactMensaje">Mensaje *</label>
+                        <textarea id="contactMensaje" required placeholder="Escribe tu mensaje aquí..."></textarea>
+                    </div>
+
+                    <label class="form-checkbox">
+                        <input type="checkbox" id="contactNewsletter">
+                        <span>Deseo recibir noticias y promociones especiales</span>
+                    </label>
+
+                    <button type="submit" class="btn-enviar" id="btnEnviar">
+                        <span class="spinner"></span>
+                        <span class="texto">Enviar mensaje →</span>
+                    </button>
+
+                    <div id="mensajeEstado" class="mensaje-estado"></div>
+                </form>
+            </section>
+        </div>
+
+        <!-- Galería de Ambientes -->
+        <section class="ambientes-section">
+            <h3>Nuestros Espacios</h3>
+            <div class="ambientes-grid">
+                <div class="ambiente-card">
+                    <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=400" alt="Salón Principal">
+                    <h4>Salón Principal</h4>
+                </div>
+                <div class="ambiente-card">
+                    <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400" alt="Terraza">
+                    <h4>Terraza</h4>
+                </div>
+                <div class="ambiente-card">
+                    <img src="https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=400" alt="Bar">
+                    <h4>Bar</h4>
+                </div>
+                <div class="ambiente-card">
+                    <img src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=400" alt="VIP">
+                    <h4>Zona VIP</h4>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h5>Inti Raymi</h5>
+                <p>Tradición peruana en cada plato</p>
+            </div>
+            <div class="footer-section">
+                <h5>Contacto</h5>
+                <p>📍 Av. Sol 123, Cusco</p>
+                <p>📞 (01) 234-5678</p>
+            </div>
+            <div class="footer-section">
+                <h5>Síguenos</h5>
+                <div class="social-links">
+                    <a href="#"><img src="https://cdn-icons-png.flaticon.com/128/733/733547.png" alt="Facebook" width="24"></a>
+                    <a href="#"><img src="https://cdn-icons-png.flaticon.com/128/733/733558.png" alt="Instagram" width="24"></a>
+                    <a href="#"><img src="https://cdn-icons-png.flaticon.com/128/733/733579.png" alt="Twitter" width="24"></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Inti Raymi Restaurant. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function(){
+            emailjs.init("QL_ked8bte37-iteX");
+        })();
+    </script>
+
+    <script type="module" src="js/firebase-config.js"></script>
+    <script type="module" src="js/contacto.js"></script>
+    <script type="module" src="js/main.js"></script>
+</body>
+</html>

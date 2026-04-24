@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0D0D0D" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+    <title>Menú - Inti Raymi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+    <style>
+        /* ============================================ */
+        /* ESTILOS COMPLETOS DEL MENÚ EN MXN */
+        /* ============================================ */
+        
+        .btn-add {
+            width: auto;
+            min-width: 120px;
+            height: 45px;
+            border-radius: 25px;
+            background: linear-gradient(135deg, #C9A962 0%, #9A7B3D 100%);
+            border: 2px solid #C9A962;
+            color: #0D0D0D;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin: 0 20px 20px auto;
+            padding: 0 20px;
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-add::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn-add:hover::before { left: 100%; }
+        .btn-add:hover {
+            background: linear-gradient(135deg, #E5D4A1 0%, #C9A962 100%);
+            transform: translateY(-3px) scale(1.02);
+        }
+        .btn-add .icono { font-size: 1.2rem; font-weight: bold; transition: transform 0.3s ease; }
+        .btn-add:hover .icono { transform: rotate(90deg); }
+        .btn-add .texto-btn { font-size: 0.8rem; }
+        .btn-add .cantidad {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #D91023;
+            color: white;
+            font-size: 0.75rem;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transform: scale(0);
+            transition: all 0.3s ease;
+            font-weight: bold;
+            border: 2px solid white;
+        }
+        .btn-add.has-items .cantidad { opacity: 1; transform: scale(1); }
+
+        @keyframes pulse-btn {
+            0%, 100% { box-shadow: 0 4px 15px rgba(201,169,98,0.4), 0 0 0 3px rgba(201,169,98,0.1); }
+            50% { box-shadow: 0 6px 20px rgba(201,169,98,0.6), 0 0 0 6px rgba(201,169,98,0.15); }
+        }
+        .btn-add.pulse { animation: pulse-btn 2s infinite; }
+
+        .item-image {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+            border-radius: 12px 12px 0 0;
+            background: #f5f5f5;
+        }
+        .item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        .menu-item:hover .item-image img { transform: scale(1.08); }
+
+        .price {
+            font-weight: 700;
+            color: #722F37;
+            font-size: 1.3rem;
+            letter-spacing: 1px;
+        }
+
+        .menu-item {
+            background: #ffffff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            transition: all 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #e0e0e0;
+        }
+        .menu-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            border-color: #C9A962;
+        }
+
+        .item-info { padding: 16px; }
+        .item-info h4 {
+            color: #2c1810;
+            font-size: 1.2rem;
+            margin: 0 0 8px 0;
+            font-family: 'Playfair Display', serif;
+        }
+        .item-info p {
+            color: #555555;
+            font-size: 0.85rem;
+            line-height: 1.4;
+            margin: 0 0 10px 0;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .menu-item { background: #1a1a1a; border-color: rgba(201,169,98,0.15); }
+            .item-info h4 { color: #C9A962; }
+            .item-info p { color: #b0b0b0; }
+            .price { color: #E5D4A1; }
+        }
+
+        .menu-tab {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 24px;
+            background: #ffffff;
+            border: 2px solid #e0e0e0;
+            border-radius: 50px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #333333;
+        }
+        .menu-tab:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            border-color: #722F37;
+        }
+        .menu-tab.active {
+            background: #722F37;
+            color: #ffffff;
+            border-color: #722F37;
+        }
+        .menu-tab span { font-size: 1.5rem; }
+
+        @media (prefers-color-scheme: dark) {
+            .menu-tab { background: #1a1a1a; color: #F5F0E8; border-color: rgba(201,169,98,0.3); }
+            .menu-tab:hover { border-color: #C9A962; box-shadow: 0 4px 12px rgba(201,169,98,0.2); }
+            .menu-tab.active { background: #722F37; color: #ffffff; border-color: #722F37; }
+        }
+
+        .menu-hero {
+            margin-top: 80px;
+            height: 50vh;
+            min-height: 400px;
+            position: relative;
+            overflow: hidden;
+        }
+        .menu-hero-image {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+        .menu-hero-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.6);
+        }
+        .menu-hero-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+            z-index: 2;
+        }
+        .menu-hero-overlay h2 {
+            font-size: 3rem;
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        .menu-hero-overlay p {
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+        }
+
+        .menu-main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .menu-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .menu-section {
+            display: none;
+        }
+        .menu-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .menu-section h3 {
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+            color: #2c1810;
+        }
+        @media (prefers-color-scheme: dark) {
+            .menu-section h3 { color: #C9A962; }
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        /* Carrito flotante */
+        .cart-floating {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #D91023 0%, #8B0000 100%);
+            color: #ffffff;
+            padding: 16px 24px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            z-index: 999;
+            border: 2px solid rgba(255,255,255,0.3);
+            font-weight: 600;
+            font-size: 1rem;
+            min-width: 180px;
+            justify-content: space-between;
+        }
+        .cart-floating.hidden { display: none; }
+
+        #cartCount {
+            background: linear-gradient(135deg, #C9A962 0%, #9A7B3D 100%);
+            color: #0D0D0D;
+            min-width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+            border: 2px solid #ffffff;
+            padding: 0 6px;
+        }
+
+        .btn-cart {
+            background: rgba(255,255,255,0.95);
+            border: none;
+            color: #D91023;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.85rem;
+        }
+        .btn-cart:hover {
+            background: #ffffff;
+            color: #8B0000;
+            transform: translateY(-2px);
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(100px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+        .modal.active { display: flex; }
+
+        .modal-content {
+            background: #ffffff;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 90%;
+            padding: 30px;
+            position: relative;
+            animation: modalIn 0.3s ease;
+        }
+        @keyframes modalIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .modal-content {
+                background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%);
+                border: 1px solid rgba(201,169,98,0.3);
+            }
+            .modal-content h3 { color: #C9A962; }
+        }
+
+        .close {
+            position: absolute;
+            right: 20px;
+            top: 15px;
+            font-size: 28px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .close:hover { color: #f44336; }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .cart-total {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 2px solid #C9A962;
+            text-align: right;
+            font-size: 1.2rem;
+        }
+        .btn-primary {
+            background: #722F37;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            width: 100%;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(114,47,55,0.4);
+        }
+
+        /* Responsive */
+        @media screen and (max-width: 768px) {
+            .menu-grid { grid-template-columns: 1fr; }
+            .cart-floating { left: 16px; right: 16px; bottom: 16px; min-width: auto; }
+            .menu-tabs { flex-direction: column; align-items: center; }
+            .menu-tab { width: 100%; max-width: 280px; justify-content: center; }
+            .menu-hero-overlay h2 { font-size: 2rem; }
+            .menu-hero { height: 40vh; min-height: 300px; }
+        }
+
+        @media screen and (max-width: 480px) {
+            .menu-main { padding: 20px; }
+            .menu-section h3 { font-size: 1.5rem; }
+            .item-info h4 { font-size: 1rem; }
+            .item-info p { font-size: 0.75rem; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <span class="logo">☀️</span>
+            <h1>Inti Raymi</h1>
+        </div>
+        <button class="nav-toggle" id="navToggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <ul class="nav-menu" id="navMenu">
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="menu.html" class="active">Menú</a></li>
+            <li><a href="reservas.html">Reservas</a></li>
+            <li><a href="nosotros.html">Nosotros</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
+            <li id="authLinks">
+                <a href="login.html" class="btn-login">Ingresar</a>
+            </li>
+        </ul>
+    </nav>
+
+    <section class="menu-hero">
+        <div class="menu-hero-image">
+            <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1920" alt="Menú Inti Raymi">
+            <div class="menu-hero-overlay">
+                <h2>Nuestro Menú</h2>
+                <p>Descubre los auténticos sabores del Perú</p>
+            </div>
+        </div>
+    </section>
+
+    <main class="menu-main">
+        <!-- Tabs de Categorías -->
+        <div class="menu-tabs">
+            <button class="menu-tab active" data-category="platos">
+                <span>🥘</span> Platos Principales
+            </button>
+            <button class="menu-tab" data-category="bebidas">
+                <span>🍹</span> Bebidas
+            </button>
+            <button class="menu-tab" data-category="postres">
+                <span>🍰</span> Postres
+            </button>
+        </div>
+
+        <!-- PLATOS PRINCIPALES -->
+        <section id="platos" class="menu-section active">
+            <h3>Platos de Fondo</h3>
+            <div class="menu-grid">
+                <!-- Entradas/Ceviches -->
+                <div class="menu-item">
+                    <div class="item-image">
+                        <img src="https://cdn-ilddihb.nitrocdn.com/MgqZCGPEMHvMRLsisMUCAIMWvgGMxqaj/assets/images/optimized/rev-7426670/www.goya.com/wp-content/uploads/2023/10/ceviche-peruano-900x900.jpg" alt="Ceviche Clásico" onerror="this.src='https://images.unsplash.com/photo-1535400255456-984241443b29?w=400'">
+                    </div>
+                    <div class="item-info">
+                        <h4>Ceviche Clásico</h4>
+                        <p>Pescado fresco, limón, ají, cebolla morada, cilantro y choclo</p>
+                        <span class="price">$245 MXN</span>
+                    </div>
+                    <button class="btn-add pulse" data-item="Ceviche Clásico" data-price="245">
+                        <span class="icono">+</span>
+                        <span class="texto-btn">Agregar</span>
+                        <span class="cantidad">0</span>
+                    </button>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-image">
+                        <img src="https://cdn-ilddihb.nitrocdn.com/MgqZCGPEMHvMRLsisMUCAIMWvgGMxqaj/assets/images/optimized/rev-7426670/www.goya.com/wp-content/uploads/2023/10/ceviche-mixto-900x900.jpg" alt="Ceviche Mixto" onerror="this.src='https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=400'">
+                    </div>
+                    <div class="item-info">
+                        <h4>Ceviche Mixto</h4>
+                        <p>Pescado y mariscos marinados en leche de tigre</p>
+                        <span class="price">$300 MXN</span>
+                    </div>
+                    <button class="btn-add" data-item="Ceviche Mixto" data-price="300">
+                        <span class="icono">+</span>
+                        <span class="texto-btn">Agregar</span>
+                        <span class="cantidad">0</span>
+                    </button>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-image">
+                        <img src="https://i.blogs.es/89c3864ecb7a9bc58b5c30ca12817f39a091a9e3.jpg" alt="Tiradito" onerror="this.src='https://images.unsplash.com/photo-1541014741259-de529411b96a?w=400'">
+                    </div>
+                    <div class="item-info">
+                        <h4>Tiradito de Pescado</h4>
+                        <p>Láminas de pescado con salsa de ají amarillo</p>
+                        <span class="price">$260 MXN</span>
+                    </div>
+                    <button class="btn-add" data-item="Tiradito" data-price="260">
+                        <span class="icono">+</span>
+                        <span class="texto-btn">Agregar</span>
+                        <span class="cantidad">0</span>
+                    </button>
+                </div>
+
+                <!-- Platos de Fondo -->
+                <div class="menu-item">
+                    <div class="item-image">
+                        <img src="https://recetasperuanas.pe/wp-content/uploads/2025/03/Lomo-Saltado.webp" alt="Lomo Saltado" onerror="this.src='https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400'">
+                    </div>
+                    <div class="item-info">
+                        <h4>Lomo Saltado</h4>
+                        <p>Jugoso lomo de res salteado con cebolla, tomate y papas fritas</p>
+                        <span class="price">$285 MXN</span>
+                    </div>
+                    <button class="btn-add" data-item="Lomo Saltado" data-price="285">
+                        <span class="icono">+</span>
+                        <span class="texto-btn">Agregar</span>
+                        <span class="cantidad">0</span>
+                    </button>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-image">
+                        <img src="https://gourmet.iprospect.cl/wp-content/uploads/2016/09/Aji-gallina.jpg" alt="Aji de Gallina" onerror="this.src='https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=400'">
+                    </div>
+                    <div class="item-info">
+                        <h4>Ají de Gallina</h4>
+                        <p>Pollo desmenuzado en cremosa salsa de ají amarillo con pecanas</p>
+                        <span class="price">$230 MXN</span>
+                    </div>
+                    <button class="btn-add" data-item="Aji de Gallina" data-price="230">
+                        <span class="icono">+</span>
+                        <span class="texto-btn">Agregar</span>
+                        <span class="cantidad">0</span>
+                    </button>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-image">
+                        <img src="https://comedera.com/wp-content/uploads/sites/9/2021/07/seco-de-cordero.jpg" alt="Seco de Cordero" onerror="this.src='https://images.unsplash.com/photo-1544025162-d76694265947?w=400'">
+                    </div>
+                    <div class="item-info">
+                        <h4>Seco de Cordero</h4>
+                        <p>Cordero tierno cocinado en salsa de cilantro con frejoles</p>
+                        <span class="price">$320 MXN</span>
+                    </div>
+                    <button class="btn-add" data-item="Seco de Cordero" data-price="320">
+                        <span class="icono">+</span>
+                        <span class="texto-btn">Agregar</span>
+                        <span class="cantidad">0</span>
+                    </button>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-image">
+                        <img src="https://www.comida-peruana.com/base/stock/Recipe/arroz-con-pollo/arroz-con-pollo_web.jpg" alt="Arroz con Pollo" onerror="this.src='https://images.unsplash.com/photo-1603133872878-684f208fb74b?w=400'">
+                    </div>
+                    <div class="item-info">
+                        <h4>Arroz con Pollo</h4>
+                        <p>Arroz verde con cilantro, pollo y vegetales</p>
+                        <span class="price">$210 MXN</span>
+                    </div>
+                    <button class="btn-add" data-item="Arroz con Pollo" data-price="210">
+                        <span class="icono">+</span>
+                        <span class="texto-btn">Agregar</span>
+                        <span class="cantidad">0</span>
+                    </button>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-image">
+                        <img src="https://cdn0.recetasgratis.net/es/posts/8/6/2/causa_limena_31268_orig.jpg" alt="Causa Limeña" onerror="this.src='https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400'">
+                    </div>
+                    <div class="item-info">
+                        <h4>Causa Limeña</h4>
+                        <p>Puré de papa amarilla relleno de pollo y palta</p>
+                        <span class="price">$190 MXN</span>
+                    </div>
+                    <button class="btn-add" data-item="Causa Limeña" data-price="190">
+                        <span class="icono">+</span>
+                        <span class="texto-btn">Agregar</span>
+                        <span class="cantidad">0</span>
+                    </button>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-image">
+                        <img src="https://imag.bonviveur.com/anticuchos-peruanos.jpg" alt="Anticuchos" onerror="this.src='https://images.unsplash.com/photo-1544025162-d76694265947?w=400'">
+                    </div>
+                    <div class="item-info">
+                        <h4>Anticuchos</h4>
+                        <p>Brochetas de corazón de res marinadas en ají panca</p>
+                        <span class="price">$220 MXN</span>
+                    </div>
+                    <button class="btn-add" data-item="Anticuchos" data-price="220">
+                        <span class="icono">+</span>
+                        <span class="texto-btn">Agregar</span>
+                        <span class="cantidad">0</span>
+                    </button>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-image">
+                        <img src="https://perudelights.com/wp-content/uploads/2013/07/papa-a-la-huancaina-lista-1024x768.jpg" alt="Papa a la Huancaína" onerror="this.src='https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=400'">
+                    </div>
+                    <div class="item-info">
+                        <h4>Papa a la Huancaína</h4>
+                        <p>Papas cocidas en salsa de ají amarillo y queso fresco</p>
+                        <span class="price">$175 MXN</span>
+                    </div>
+                    <button class="btn-add" data-item="Papa Huancaína" data-price="175">
+                        <span class="icono">+</span>
+                        <span class="texto-btn">Agregar</span>
+                        <span class="cantidad">0</span>
+                    </button>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-image">
+                        <img src="https://comedera.com/wp-content/uploads/sites/9/2022/01/tacu-tacu.jpg" alt="Tacu Tacu" onerror="this.src='https://images.unsplash.com/photo-1559742811-822873691df8?w=400'">
+                    </div>
+                    <div class="item-info">
+                        <h4>Tacu Tacu con Mariscos</h4>
+                        <p>Tortilla de arroz y frejoles con salsa de mariscos</p>
+                        <span class="price">$350 MXN</span>
+                    </div>
+                    <button class="btn-add" data-item="Tacu Tacu Mariscos" data-price="350">
+                        <span class="icono">+</span>
+                        <span class="texto-btn">Agregar</span>
+                        <span class="cantidad">0</span>
+                    </button>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-image">
+                        <img src="https://cdn-ilddihb.nitrocdn.com/MgqZCGPEMHvMRLsisMUCAIMWvgGMxqaj/assets/images/optimized/rev-7426670/www.goya.com/wp-content/uploads/2023/10/peruvian-style-shrimp-soup-900x900.jpg" alt="Chupe de Camarones" onerror="this.src='https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=400'">
+                    </div>
+                    <div class="item-info">
+                        <h4>Chupe de Camarones</h4>
+                        <p>Sopa cremosa de camarones con queso y huevo</p>
+                        <span class="price">$260 MXN</span>
+                    </div>
+                    <button class="btn-add" data-item="Chupe Camarones" data-price="260">
+                        <span class="icono">+</span>
+                        <span class="texto-btn">Agregar</span>
+                        <span class="cantidad">0</span>
+                    </button>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-image">
+                        <img src="https://www.comida-peruana.com/base/stock/Recipe/adobo-arequipeno-tradicional/adobo-arequipeno-tradicional_web.jpg" alt="Adobo" onerror="this.src='https://images.unsplash.com/photo-1544025162-d76694265947?w=400'">
+                    </div>
+                    <div class="item-info">
+                        <h4>Adobo Arequipeño</h4>
+                        <p>Cerdo marinado en chicha de jora y especias</p>
+                        <span class="price">$245 MXN</span>
+                    </div>
+                    <button class="btn-add" data-item="Adobo Arequipeño" data-price="245">
+                        <span class="icono">+</span>
+                        <span class="texto-btn">Agregar</span>
+                        <span class="cantidad">0</span>
+                    </button>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-image">
+                        <img src="https://content-cocina.lecturas.com/medio/2024/01/15/estofado-de-pollo-peruano_6270aa86_240115154239_1280x720.jpg" alt="Estofado" onerror="this.src='https://images.unsplash.com/photo-1603133872878-684f208fb74b?w=400'">
+                    </div>
+                    <div class="item-info">
+                        <h4>Estofado de Pollo</h4>
+                        <p>Pollo guisado con papas, zanahoria y arroz</p>
+                        <span class="price">$195 MXN</span>
+                    </div>
+                    <button class="btn-add" data-item="Estofado Pollo" data-price="195">
+                        <span class="icono">+</span>
+                        <span class="texto-btn">Agregar</span>
+                        <span class="cantidad">0</span>
+                    </button>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-image">
+                        <img src="https://cdn.blog.paulinacocina.net/wp-content/uploads/2021/12/arroz-chaufa-peruano-receta.jpg" alt="Arroz Chaufa" onerror="this.src='https://images.unsplash.com/photo-1603133872878-684f208fb74b?w=400'">
+                    </div>
+                    <div class="item-info">
+                        <h4>Arroz Chaufa</h4>
+                        <p>Arroz frito al estilo peruano con pollo, huevo y cebollín</p>
+                        <span class="price">$210 MXN</span>
+                    </div>
+                    <button class="btn-add" data-item="Arroz Chaufa" data-price="210">
+                        <span class="icono">+</span>
+                        <span class="texto-btn">Agregar</span>
+                        <span class="cantidad">0</span>
+                    </button>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-image">
+                        <img src="https://comedera.com/wp-content/uploads/sites/9/2022/01/parihuela.jpg" alt="Parihuela" onerror="this.src='https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=400'">
+                    </div>
+                    <div class="item-info">
+                        <h4>Parihuela</h4>
+                        <p>Sopa de mariscos con ají panca y especias</p>
+                        <span class="price">$285 MXN</span>
+                    </div>
+                    <button class="btn-add" data-item="Parihuela" data-price="285">
+                        <span class="icono">+</span>
+                        <span class="texto-btn">Agregar</span>
+                        <span class="cantidad">0</span>
+                    </button>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-image">
+                        <img src="https://www.comida-peruana.com/base/stock/Recipe/pollo-a-la-brasa/pollo-a-la-brasa_web.jpg" alt="Pollo a la Brasa" onerror="this.src='https://images.unsplash.com/photo-1598103442097-8b74394b95c6?w=400'">
+                    </div>
+                    <div class="item-info">
+                        <h4>Pollo a la Brasa</h4>
+                        <p>1/4 de pollo con papas fritas y ensalada</p>
+                        <span class="price">$230 MXN</span>
+                    </div>
+                    <button class="btn-add" data-item="Pollo Brasa" data-price="230">
+                        <span class="icono">+</span>
+                        <span class="texto-btn">Agregar</span>
+                        <span class="cantidad">0</span>
+                    </button>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-image">
+                        <img src="https://www.comida-peruana.com/base/stock/Recipe/carapulcra/carapulcra_web.jpg" alt="Carapulcra" onerror="this.src='https://images.unsplash.com/photo-1544025162-d76694265947?w=400'">
+                    </div>
+                    <div class="item-info">
+                        <h4>Carapulcra</h4>
+                        <p>Papa seca guisada con maní y carne de cerdo</p>
+                        <span class="price">$240 MXN</span>
+                    </div>
+                    <button class="btn-add" data-item="Carapulcra" data-price="240">
+                        <span class="icono">+</span>
+                        <span class="texto-btn">Agregar</span>
+                        <span class="cantidad">0</span>
+                    </button>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-image">
+                        <img src="https://www.comida-peruana.com/base/stock/Recipe/ocopa-arequipena/ocopa-arequipena_web.jpg" alt="Ocopa" onerror="this.src='https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=400'">
+                    </div>
+                    <div class="item-info">
+                        <h4>Ocopa Arequipeña</h4>
+                        <p>Papas con salsa de maní, ají amarillo y huacatay</p>
+                        <span class="price">$185 MXN</span>
+                    </div>
+                    <button class="btn-add" data-item="Ocopa" data-price="185">
+                        <span class="icono">+</span>
+                        <span class="texto-btn">Agregar</span>
+                        <span class="cantidad">0</span>
+                    </button>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-image">
+                        <img src="https://www.comida-peruana.com/base/stock/Recipe/rocoto-relleno/rocoto-relleno_web.jpg" alt="Rocoto Relleno" onerror="this.src='https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=400'">
+                    </div>
+                    <div class="item-info">
+                        <h4>Rocoto Relleno</h4>
+                        <p>Ají rocoto relleno de carne molida y queso</p>
+                        <span class="price">$250 MXN</span>
+                    </div>
+                    <button class="btn-add" data-item="Rocoto Relleno" data-price="250">
+                        <span class="icono">+</span>
+                        <span class="texto-btn">Agregar</span>
+                        <span class="cantidad">0</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- BEBIDAS -->
+        <section id="bebidas" class="menu-section">
+            <h3>Bebidas Tradicionales</h3>
+            <div class="menu-grid">
+                <div class="menu-item">
+                    <div class="item-image">
+                        <img src="https://cdn0.recetasgratis.net/es/posts/9/8/2/pisco_sour_peruano_casero_16289_orig.jpg" alt="Pisco Sour" onerror="this.src='https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=400'">
+                    </div>
+                    <div class="item-info">
+                        <h4>Pisco Sour</h4>
+                        <p>El clásico cóctel peruano con pisco, limón y clara de huevo</p>
+                        <span class="price">$150 MXN</span>
+                    </div>
+                    <button class="btn-add" data-item="Pisco Sour" data-price="150">
+                        <span class="icono">+</span>
+                        <span class="texto-btn">Agregar</span>
+                        <span class="cantidad">0</span>
+                    </button>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-image">
+                        <img src="https://jameaperu.com/assets/images/chicha-morada_800x534.webp" alt="Chicha Morada" onerror="this.src='https://images.unsplash.com/photo-1544145945-f90425340c7e?w=400'">
+                    </div>
+                    <div class="item-info">
+                        <h4>Chicha Morada</h4>
+                        <p>Refrescante bebida de maíz morado con canela y clavo</p>
+                        <span class="price">$65 MXN</span>
+                    </div>
+                    <button class="btn-add" data-item="Chicha Morada" data-price="65">
+                        <span class="icono">+</span>
+                        <span class="texto-btn">Agregar</span>
+                        <span class="cantidad">0</span>
+                    </button>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-image">
+                        <img src="https://www.eatperu.com/wp-content/uploads/2021/01/maracuya-sour-recipe.jpg" alt="Maracuyá Sour" onerror="this.src='https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=400'">
+                    </div>
+                    <div class="item-info">
+                        <h4>Maracuyá Sour</h4>
+                        <p>Variante del pisco sour con pulpa de maracuyá</p>
+                        <span class="price">$165 MXN</span>
+                    </div>
+                    <button class="btn-add" data-item="Maracuyá Sour" data-price="165">
+                        <span class="icono">+</span>
+                        <span class="texto-btn">Agregar</span>
+                        <span class="cantidad">0</span>
+                    </button>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-image">
+                        <img src="https://jameaperu.com/assets/images/inca-kola_800x534.webp" alt="Inca Kola" onerror="this.src='https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=400'">
+                    </div>
+                    <div class="item-info">
+                        <h4>Inca Kola</h4>
+                        <p>La bebida del Perú, gaseosa de sabor único</p>
+                        <span class="price">$45 MXN</span>
+                    </div>
+                    <button class="btn-add" data-item="Inca Kola" data-price="45">
+                        <span class="icono">+</span>
+                        <span class="texto-btn">Agregar</span>
+                        <span class="cantidad">0</span>
+                    </button>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-image">
+                        <img src="https://jameaperu.com/assets/images/emoliente_800x534.webp" alt="Emoliente" onerror="this.src='https://images.unsplash.com/photo-1544145945-f90425340c7e?w=400'">
+                    </div>
+                    <div class="item-info">
+                        <h4>Emoliente</h4>
+                        <p>Bebida caliente de cebada con linaza y hierbas</p>
+                        <span class="price">$55 MXN</span>
+                    </div>
+                    <button class="btn-add" data-item="Emoliente" data-price="55">
+                        <span class="icono">+</span>
+                        <span class="texto-btn">Agregar</span>
+                        <span class="cantidad">0</span>
+                    </button>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-image">
+                        <img src="https://jameaperu.com/assets/images/jugo-de-cocona_800x534.webp" alt="Jugo de Cocona" onerror="this.src='https://images.unsplash.com/photo-1544145945-f90425340c7e?w=400'">
+                    </div>
+                    <div class="item-info">
+                        <h4>Jugo de Cocona</h4>
+                        <p>Refrescante jugo de fruta amazónica</p>
+                        <span class="price">$75 MXN</span>
+                    </div>
+                    <button class="btn-add" data-item="Jugo Cocona" data-price="75">
+                        <span class="icono">+</span>
+                        <span class="texto-btn">Agregar</span>
+                        <span class="cantidad">0</span>
+                    </button>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-image">
+                        <img src="https://www.cusquena.com/sites/g/files/seuoyk771/files/2023-04/variedaeds.png.webp" alt="Cerveza Cusqueña" onerror="this.src='https://images.unsplash.com/photo-1535958636474-b021ee887b13?w=400'">
+                    </div>
+                    <div class="item-info">
+                        <h4>Cerveza Cusqueña</h4>
+                        <p>Cerveza premium peruana</p>
+                        <span class="price">$100 MXN</span>
+                    </div>
+                    <button class="btn-add" data-item="Cusqueña" data-price="100">
+                        <span class="icono">+</span>
+                        <span class="texto-btn">Agregar</span>
+                        <span class="cantidad">0</span>
+                    </button>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-image">
+                        <img src="https://jameaperu.com/assets/images/limonada-frozen_800x534.webp" alt="Limonada Frozen" onerror="this.src='https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=400'">
+                    </div>
+                    <div class="item-info">
+                        <h4>Limonada Frozen</h4>
+                        <p>Limonada helada con hierbabuena</p>
+                        <span class="price">$80 MXN</span>
+                    </div>
+                    <button class="btn-add" data-item="Limonada Frozen" data-price="80">
+                        <span class="icono">+</span>
+                        <span class="texto-btn">Agregar</span>
+                        <span class="cantidad">0</span>
+                    </button>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-image">
+                        <img src="https://jameaperu.com/assets/images/algarrobina_800x534.webp" alt="Algarrobina" onerror="this.src='https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=400'">
+                    </div>
+                    <div class="item-info">
+                        <h4>Algarrobina</h4>
+                        <p>Cóctel de pisco con algarrobina y leche</p>
+                        <span class="price">$140 MXN</span>
+                    </div>
+                    <button class="btn-add" data-item="Algarrobina" data-price="140">
+                        <span class="icono">+</span>
+                        <span class="texto-btn">Agregar</span>
+                        <span class="cantidad">0</span>
+                    </button>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-image">
+                        <img src="https://jameaperu.com/assets/images/jugo-de-aguaymanto_800x534.webp" alt="Jugo de Aguaymanto" onerror="this.src='https://images.unsplash.com/photo-1544145945-f90425340c7e?w=400'">
+                    </div>
+                    <div class="item-info">
+                        <h4>Jugo de Aguaymanto</h4>
+                        <p>Jugo de physalis, fruta andina</p>
+                        <span class="price">$85 MXN</span>
+                    </div>
+                    <button class="btn-add" data-item="Jugo Aguaymanto" data-price="85">
+                        <span class="icono">+</span>
+                        <span class="texto-btn">Agregar</span>
+                        <span class="cantidad">0</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- POSTRES -->
+        <section id="postres" class="menu-section">
+            <h3>Dulces Peruanos</h3>
+            <div class="menu-grid">
+                <div class="menu-item">
+                    <div class="item-image">
+                        <img src="https://jameaperu.com/assets/images/suspiro-a-la-limena_800x534.webp" alt="Suspiro a la Limeña" onerror="this.src='https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?w=400'">
+                    </div>
+                    <div class="item-info">
+                        <h4>Suspiro a la Limeña</h4>
+                        <p>Dulce de leche con merengue y canela</p>
+                        <span class="price">$120 MXN</span>
+                    </div>
+                    <button class="btn-add" data-item="Suspiro Limeña" data-price="120">
+                        <span class="icono">+</span>
+                        <span class="texto-btn">Agregar</span>
+                        <span class="cantidad">0</span>
+                    </button>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-image">
+                        <img src="https://jameaperu.com/assets/images/torta-de-chocolate_800x534.webp" alt="Torta de Chocolate" onerror="this.src='https://images.unsplash.com/photo-1606313564200-e75d5e30476d?w=400'">
+                    </div>
+                    <div class="item-info">
+                        <h4>Torta de Chocolate</h4>
+                        <p>Queque húmedo de chocolate con fudge</p>
+                        <span class="price">$130 MXN</span>
+                    </div>
+                    <button class="btn-add" data-item="Torta Chocolate" data-price="130">
+                        <span class="icono">+</span>
+                        <span class="texto-btn">Agregar</span>
+                        <span class="cantidad">0</span>
+                    </button>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-image">
+                        <img src="https://comedera.com/wp-content/uploads/sites/9/2022/06/Mazamorra-morada-shutterstock_1530917543.jpg" alt="Mazamorra Morada" onerror="this.src='https://images.unsplash.com/photo-1549007994-cb92caebd54b?w=400'">
+                    </div>
+                    <div class="item-info">
+                        <h4>Mazamorra Morada</h4>
+                        <p>Postre de maíz morado con frutas y canela</p>
+                        <span class="price">$100 MXN</span>
+                    </div>
+                    <button class="btn-add" data-item="Mazamorra Morada" data-price="100">
+                        <span class="icono">+</span>
+                        <span class="texto-btn">Agregar</span>
+                        <span class="cantidad">0</span>
+                    </button>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-image">
+                        <img src="https://www.comida-peruana.com/base/stock/Recipe/arroz-con-leche/arroz-con-leche_web.jpg" alt="Arroz con Leche" onerror="this.src='https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?w=400'">
+                    </div>
+                    <div class="item-info">
+                        <h4>Arroz con Leche</h4>
+                        <p>Clásico arroz con leche y canela</p>
+                        <span class="price">$90 MXN</span>
+                    </div>
+                    <button class="btn-add" data-item="Arroz Leche" data-price="90">
+                        <span class="icono">+</span>
+                        <span class="texto-btn">Agregar</span>
+                        <span class="cantidad">0</span>
+                    </button>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-image">
+                        <img src="https://www.peru.travel/Contenido/General/Imagen/es/301/1.1/picarones.jpg" alt="Picarones" onerror="this.src='https://images.unsplash.com/photo-1551024601-bec78aea704b?w=400'">
+                    </div>
+                    <div class="item-info">
+                        <h4>Picarones</h4>
+                        <p>Buñuelos de zapallo y camote con miel de chancaca</p>
+                        <span class="price">$110 MXN</span>
+                    </div>
+                    <button class="btn-add" data-item="Picarones" data-price="110">
+                        <span class="icono">+</span>
+                        <span class="texto-btn">Agregar</span>
+                        <span class="cantidad">0</span>
+                    </button>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-image">
+                        <img src="https://mojo.generalmills.com/api/public/content/b4ScypOkiEunKKmVYEjZ7g_gmi_hi_res_jpeg.jpeg" alt="Turrón de Doña Pepa" onerror="this.src='https://images.unsplash.com/photo-1606313564200-e75d5e30476d?w=400'">
+                    </div>
+                    <div class="item-info">
+                        <h4>Turrón de Doña Pepa</h4>
+                        <p>Galletas con miel de chancaca y anís</p>
+                        <span class="price">$105 MXN</span>
+                    </div>
+                    <button class="btn-add" data-item="Turrón Doña Pepa" data-price="105">
+                        <span class="icono">+</span>
+                        <span class="texto-btn">Agregar</span>
+                        <span class="cantidad">0</span>
+                    </button>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-image">
+                        <img src="https://jameaperu.com/assets/images/helado-de-lucuma_800x534.webp" alt="Helado de Lúcuma" onerror="this.src='https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?w=400'">
+                    </div>
+                    <div class="item-info">
+                        <h4>Helado de Lúcuma</h4>
+                        <p>Helado de fruta peruana favorita</p>
+                        <span class="price">$100 MXN</span>
+                    </div>
+                    <button class="btn-add" data-item="Helado Lucuma" data-price="100">
+                        <span class="icono">+</span>
+                        <span class="texto-btn">Agregar</span>
+                        <span class="cantidad">0</span>
+                    </button>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-image">
+                        <img src="https://cdn0.recetasgratis.net/es/posts/0/0/6/ranfanote_75600_600.webp" alt="Ranfañote" onerror="this.src='https://images.unsplash.com/photo-1606313564200-e75d5e30476d?w=400'">
+                    </div>
+                    <div class="item-info">
+                        <h4>Ranfañote</h4>
+                        <p>Postre de pan bañado en miel de chancaca</p>
+                        <span class="price">$95 MXN</span>
+                    </div>
+                    <button class="btn-add" data-item="Ranfañote" data-price="95">
+                        <span class="icono">+</span>
+                        <span class="texto-btn">Agregar</span>
+                        <span class="cantidad">0</span>
+                    </button>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-image">
+                        <img src="https://jameaperu.com/assets/images/king-kong-dulce_800x534.webp" alt="King Kong" onerror="this.src='https://images.unsplash.com/photo-1606313564200-e75d5e30476d?w=400'">
+                    </div>
+                    <div class="item-info">
+                        <h4>King Kong</h4>
+                        <p>Galletas rellenas de manjar y piña</p>
+                        <span class="price">$115 MXN</span>
+                    </div>
+                    <button class="btn-add" data-item="King Kong" data-price="115">
+                        <span class="icono">+</span>
+                        <span class="texto-btn">Agregar</span>
+                        <span class="cantidad">0</span>
+                    </button>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-image">
+                        <img src="https://www.eatperu.com/wp-content/uploads/2020/02/peruvian-crema-volteada-caramel-flan-recipe.jpg" alt="Crema Volteada" onerror="this.src='https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?w=400'">
+                    </div>
+                    <div class="item-info">
+                        <h4>Crema Volteada</h4>
+                        <p>Flan de caramelo casero</p>
+                        <span class="price">$85 MXN</span>
+                    </div>
+                    <button class="btn-add" data-item="Crema Volteada" data-price="85">
+                        <span class="icono">+</span>
+                        <span class="texto-btn">Agregar</span>
+                        <span class="cantidad">0</span>
+                    </button>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-image">
+                        <img src="https://jameaperu.com/assets/images/churros-caseros_800x534.webp" alt="Churros" onerror="this.src='https://images.unsplash.com/photo-1551024601-bec78aea704b?w=400'">
+                    </div>
+                    <div class="item-info">
+                        <h4>Churros Rellenos</h4>
+                        <p>Churros crocantes rellenos de manjar</p>
+                        <span class="price">$105 MXN</span>
+                    </div>
+                    <button class="btn-add" data-item="Churros" data-price="105">
+                        <span class="icono">+</span>
+                        <span class="texto-btn">Agregar</span>
+                        <span class="cantidad">0</span>
+                    </button>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-image">
+                        <img src="https://buenazo.cronosmedia.glr.pe/original/2021/04/13/6076204c2e7bf904a63fd146.jpg" alt="Frejol Colado" onerror="this.src='https://images.unsplash.com/photo-1549007994-cb92caebd54b?w=400'">
+                    </div>
+                    <div class="item-info">
+                        <h4>Frejol Colado</h4>
+                        <p>Dulce de frejol con sésamo</p>
+                        <span class="price">$80 MXN</span>
+                    </div>
+                    <button class="btn-add" data-item="Frejol Colado" data-price="80">
+                        <span class="icono">+</span>
+                        <span class="texto-btn">Agregar</span>
+                        <span class="cantidad">0</span>
+                    </button>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-image">
+                        <img src="https://jameaperu.com/assets/images/alfajores_800x534.webp" alt="Alfajores" onerror="this.src='https://images.unsplash.com/photo-1606313564200-e75d5e30476d?w=400'">
+                    </div>
+                    <div class="item-info">
+                        <h4>Alfajores</h4>
+                        <p>Galletas de maicena rellenas de manjar</p>
+                        <span class="price">$75 MXN</span>
+                    </div>
+                    <button class="btn-add" data-item="Alfajores" data-price="75">
+                        <span class="icono">+</span>
+                        <span class="texto-btn">Agregar</span>
+                        <span class="cantidad">0</span>
+                    </button>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-image">
+                        <img src="https://www.comida-peruana.com/base/stock/Recipe/tejas/tejas_web.jpg" alt="Tejas" onerror="this.src='https://images.unsplash.com/photo-1606313564200-e75d5e30476d?w=400'">
+                    </div>
+                    <div class="item-info">
+                        <h4>Tejas</h4>
+                        <p>Dulces de manjar cubiertos de azúcar</p>
+                        <span class="price">$70 MXN</span>
+                    </div>
+                    <button class="btn-add" data-item="Tejas" data-price="70">
+                        <span class="icono">+</span>
+                        <span class="texto-btn">Agregar</span>
+                        <span class="cantidad">0</span>
+                    </button>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-image">
+                        <img src="https://www.comida-peruana.com/base/stock/Recipe/chocotejas/chocotejas_web.jpg" alt="Chocotejas" onerror="this.src='https://images.unsplash.com/photo-1606313564200-e75d5e30476d?w=400'">
+                    </div>
+                    <div class="item-info">
+                        <h4>Chocotejas</h4>
+                        <p>Tejas bañadas en chocolate</p>
+                        <span class="price">$80 MXN</span>
+                    </div>
+                    <button class="btn-add" data-item="Chocotejas" data-price="80">
+                        <span class="icono">+</span>
+                        <span class="texto-btn">Agregar</span>
+                        <span class="cantidad">0</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Carrito Flotante -->
+        <div id="cartFloating" class="cart-floating hidden">
+            <span id="cartCount">0</span> items
+            <button id="btnVerPedido" class="btn-cart">Ver Pedido</button>
+        </div>
+    </main>
+
+    <!-- Modal Pedido -->
+    <div id="modalPedido" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Tu Pedido</h3>
+            <div id="cartItems"></div>
+            <div class="cart-total">
+                <strong>Total: $<span id="cartTotal">0.00</span> MXN</strong>
+            </div>
+            <button id="btnHacerPedido" class="btn-primary">Confirmar Pedido</button>
+        </div>
+    </div>
+
+    <script type="module" src="js/firebase-config.js"></script>
+    <script type="module" src="js/menu.js"></script>
+    <script type="module" src="js/main.js"></script>
+
+    <!-- Script para scroll al plato seleccionado desde index -->
+    <script>
+        (function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const categoriaParam = urlParams.get('categoria');
+            const platoParam = urlParams.get('plato');
+            
+            if (categoriaParam) {
+                const tabBtns = document.querySelectorAll('.menu-tab');
+                
+                tabBtns.forEach(btn => {
+                    if (btn.dataset.category === categoriaParam) {
+                        btn.click();
+                    }
+                });
+                
+                if (platoParam) {
+                    setTimeout(() => {
+                        const platoDecoded = decodeURIComponent(platoParam);
+                        const items = document.querySelectorAll('.menu-item');
+                        
+                        for (let item of items) {
+                            const nombreItem = item.querySelector('.item-info h4')?.textContent;
+                            if (nombreItem === platoDecoded) {
+                                item.classList.add('highlight-plato');
+                                item.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                                
+                                const style = document.createElement('style');
+                                style.textContent = `
+                                    .highlight-plato {
+                                        animation: highlightPulse 1.5s ease-in-out 3;
+                                        border: 2px solid #C9A962 !important;
+                                        box-shadow: 0 0 30px rgba(201,169,98,0.5) !important;
+                                    }
+                                    @keyframes highlightPulse {
+                                        0%, 100% { box-shadow: 0 0 0 0 rgba(201,169,98,0.7); border-color: #C9A962; }
+                                        50% { box-shadow: 0 0 0 15px rgba(201,169,98,0); border-color: #E5D4A1; }
+                                    }
+                                `;
+                                document.head.appendChild(style);
+                                
+                                setTimeout(() => {
+                                    item.classList.remove('highlight-plato');
+                                }, 3000);
+                                break;
+                            }
+                        }
+                    }, 500);
+                }
+            }
+        })();
+    </script>
+</body>
+</html> 

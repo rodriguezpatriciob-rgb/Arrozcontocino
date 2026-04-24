@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservas - Inti Raymi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilo.css">
+    <link rel="stylesheet" href="css/reservas.css">
+
+    <!-- EmailJS - Carga asincrona con fallback para moviles -->
+    <script>
+        window.cargarEmailJS = function() {
+            return new Promise((resolve, reject) => {
+                if (typeof window.emailjs !== 'undefined' && window.emailjs.init) {
+                    console.log('EmailJS ya estaba cargado');
+                    resolve();
+                    return;
+                }
+
+                console.log('Cargando EmailJS...');
+
+                const script = document.createElement('script');
+                script.src = 'https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js';
+                script.async = true;
+
+                script.onload = function() {
+                    let checkIntentos = 0;
+                    const checkInterval = setInterval(() => {
+                        if (typeof window.emailjs !== 'undefined' && window.emailjs.init) {
+                            clearInterval(checkInterval);
+                            try {
+                                window.emailjs.init("QL_ked8bte37-iteX");
+                                console.log('EmailJS inicializado correctamente');
+                                resolve();
+                            } catch (err) {
+                                reject(new Error('Error inicializando EmailJS: ' + err.message));
+                            }
+                        }
+                        checkIntentos++;
+                        if (checkIntentos > 20) {
+                            clearInterval(checkInterval);
+                            reject(new Error('EmailJS no respondio despues de cargar'));
+                        }
+                    }, 100);
+                };
+
+                script.onerror = function() {
+                    reject(new Error('No se pudo cargar el script de EmailJS'));
+                };
+
+                setTimeout(() => {
+                    reject(new Error('Timeout: EmailJS no cargo en 15 segundos'));
+                }, 15000);
+
+                document.head.appendChild(script);
+            });
+        };
+
+        window.emailJSReady = window.cargarEmailJS().catch(err => {
+            console.warn('Precarga de EmailJS fallo:', err.message);
+        });
+    </script>
+<base target="_blank">
+</head>
+<body>
+    <!-- Navegacion -->
+    <nav class="navbar">
+        <div class="nav-brand">
+            <span class="logo">☀️</span>
+            <h1>Inti Raymi</h1>
+        </div>
+        <button class="nav-toggle" id="navToggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <ul class="nav-menu" id="navMenu">
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="menu.html">Menu</a></li>
+            <li><a href="reservas.html" class="active">Reservas</a></li>
+            <li><a href="nosotros.html">Nosotros</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
+            <li id="authLinks">
+                <a href="login.html" class="btn-login">Ingresar</a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Hero Reservas Dinamico -->
+    <section class="reservas-hero" id="reservasHero">
+        <div class="hero-image">
+            <img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?w=1920" alt="Restaurante Inti Raymi" id="heroImage">
+            <div class="hero-overlay">
+                <h2 id="heroTitle">Reserva tu Experiencia</h2>
+                <p id="heroSubtitle">Elige el ambiente perfecto para tu ocasion especial</p>
+            </div>
+        </div>
+    </section>
+
+    <main class="reservas-main">
+        <!-- Selector de Area con Imagenes -->
+        <section class="areas-selector-section" id="areasSelectorSection">
+            <h3>Selecciona tu Area</h3>
+            <div class="areas-selector">
+                <div class="area-option active" data-area="salon-principal" data-img="https://images.unsplash.com/photo-1559339352-11d035aa65de?w=1920">
+                    <div class="area-img">
+                        <img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?w=400" alt="Salon Principal">
+                    </div>
+                    <div class="area-content">
+                        <span class="area-icon">🏛️</span>
+                        <h4>Salon Principal</h4>
+                        <p>Elegancia clasica</p>
+                    </div>
+                </div>
+                <div class="area-option" data-area="terraza" data-img="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1920">
+                    <div class="area-img">
+                        <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400" alt="Terraza">
+                    </div>
+                    <div class="area-content">
+                        <span class="area-icon">🌿</span>
+                        <h4>Terraza</h4>
+                        <p>Vista panoramica</p>
+                    </div>
+                </div>
+                <div class="area-option" data-area="vip" data-img="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=1920">
+                    <div class="area-img">
+                        <img src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=400" alt="Zona VIP">
+                    </div>
+                    <div class="area-content">
+                        <span class="area-icon">⭐</span>
+                        <h4>Zona VIP</h4>
+                        <p>Exclusividad total</p>
+                    </div>
+                </div>
+                <div class="area-option" data-area="bar" data-img="https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=1920">
+                    <div class="area-img">
+                        <img src="https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=400" alt="Bar">
+                    </div>
+                    <div class="area-content">
+                        <span class="area-icon">🍸</span>
+                        <h4>Bar</h4>
+                        <p>Ambiente casual</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seccion de Mesas Dinamica -->
+        <section class="mesas-section" id="mesasSection">
+            <div class="mesas-header">
+                <h3 id="mesasTitle">Mesas del Salon Principal</h3>
+                <p id="mesasSubtitle">Selecciona la mesa perfecta para tu experiencia</p>
+            </div>
+
+            <div class="leyenda-premium">
+                <div class="leyenda-item">
+                    <div class="leyenda-mesa disponible"></div>
+                    <span>Disponible</span>
+                </div>
+                <div class="leyenda-item">
+                    <div class="leyenda-mesa ocupada"></div>
+                    <span>Ocupada</span>
+                </div>
+                <div class="leyenda-item">
+                    <div class="leyenda-mesa seleccionada"></div>
+                    <span>Seleccionada</span>
+                </div>
+            </div>
+
+            <div class="mesas-container" id="mesasContainer"></div>
+        </section>
+
+        <!-- Formulario de Reserva -->
+        <section class="form-reserva" id="formReserva">
+            <h3>Completa tu Reserva</h3>
+            <form id="reservaForm">
+                <div class="form-row">
+                    <div class="input-group">
+                        <label>Fecha</label>
+                        <input type="date" id="fechaReserva" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Hora</label>
+                        <select id="horaReserva" required>
+                            <option value="">Selecciona hora</option>
+                            <optgroup label="Almuerzo">
+                                <option value="12:00">12:00 PM</option>
+                                <option value="12:30">12:30 PM</option>
+                                <option value="13:00">1:00 PM</option>
+                                <option value="13:30">1:30 PM</option>
+                                <option value="14:00">2:00 PM</option>
+                                <option value="14:30">2:30 PM</option>
+                                <option value="15:00">3:00 PM</option>
+                                <option value="15:30">3:30 PM</option>
+                            </optgroup>
+                            <optgroup label="Cena">
+                                <option value="18:00">6:00 PM</option>
+                                <option value="18:30">6:30 PM</option>
+                                <option value="19:00">7:00 PM</option>
+                                <option value="19:30">7:30 PM</option>
+                                <option value="20:00">8:00 PM</option>
+                                <option value="20:30">8:30 PM</option>
+                                <option value="21:00">9:00 PM</option>
+                                <option value="21:30">9:30 PM</option>
+                                <option value="22:00">10:00 PM</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="input-group">
+                        <label>Numero de Personas</label>
+                        <input type="number" id="numPersonas" min="1" max="20" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Mesa Seleccionada</label>
+                        <input type="text" id="mesaSeleccionada" readonly placeholder="Selecciona una mesa arriba">
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>Notas Especiales (opcional)</label>
+                    <textarea id="notasReserva" rows="3" placeholder="Alergias, ocasion especial, etc."></textarea>
+                </div>
+
+                <div class="resumen-reserva" id="resumenReserva">
+                    <h4>Resumen de tu Reserva</h4>
+                    <p><strong>Area:</strong> <span id="resArea">-</span></p>
+                    <p><strong>Mesa:</strong> <span id="resMesa">-</span></p>
+                    <p><strong>Fecha:</strong> <span id="resFecha">-</span></p>
+                    <p><strong>Hora:</strong> <span id="resHora">-</span></p>
+                    <p><strong>Personas:</strong> <span id="resPersonas">-</span></p>
+                </div>
+
+                <button type="submit" class="btn-reservar" id="btnReservar">
+                    Confirmar Reserva
+                </button>
+            </form>
+        </section>
+
+        <!-- Mis Reservas -->
+        <section id="misReservas" class="mis-reservas hidden">
+            <h3>Mis Reservas</h3>
+            <div id="listaMisReservas" class="reservas-lista"></div>
+        </section>
+    </main>
+
+    <!-- Modal Confirmacion -->
+    <div id="modalConfirmacion" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="confirmacion-content">
+                <h3>🎉 ¡Reserva Confirmada!</h3>
+                <p>Tu reserva ha sido registrada exitosamente.</p>
+                <div id="detalleConfirmacion"></div>
+                <div id="estadoCorreo" style="margin: 15px 0; padding: 10px; border-radius: 8px; font-size: 0.9rem;"></div>
+                <button id="btnReenviarCorreo" class="btn-primary" style="display:none; margin-bottom: 10px;">
+                    📧 Reenviar Correo
+                </button>
+                <button id="btnCerrarConfirmacion" class="btn-primary">Aceptar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script type="module" src="js/firebase-config.js"></script>
+    <script type="module" src="js/reservas.js"></script>
+    <script type="module" src="js/main.js"></script>
+
+    <!-- Scroll automatico al seleccionar area -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const areaOptions = document.querySelectorAll('.area-option');
+            const mesasSection = document.getElementById('mesasSection');
+
+            areaOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    areaOptions.forEach(opt => opt.classList.remove('active'));
+                    this.classList.add('active');
+
+                    if (mesasSection) {
+                        setTimeout(() => {
+                            mesasSection.scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'start'
+                            });
+                        }, 300);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
